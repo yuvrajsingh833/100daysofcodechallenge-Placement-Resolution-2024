@@ -1,0 +1,196 @@
+//#100daysofcodechallenge
+
+//Day-1(Module-24 Linked List(Part-1))--30/07/2024
+
+public class LinkedLists {
+
+    public class Node{
+        int data;
+        Node next; //initially null
+
+        public Node(int data){ //constructor(Defining Node)
+            this.data=data;
+            this.next=null;
+        }
+    }
+    public static Node head;
+    public static Node tail;
+    public static int size;
+
+    //add first node in LL - T.C.-O(n)
+
+    public void addFirst(int data){
+        //step-1 Creating a new node
+        Node newNode=new Node(data);
+        size++;
+        if(head==null){
+            head=tail=newNode;
+            return;
+        }
+        //step-2 linking of head node and newNode
+        newNode.next=head;
+        //setp-3 head=newNode;
+        head=newNode;
+    }
+
+    //add last node in LL-T.C.-O(1);
+
+    public void addLast(int data){
+        //step 1- Creating a new Node
+        Node newNode=new Node(data);
+        size++;
+        if(head==null){
+            head=tail=newNode;
+            return;
+        }
+        //step-2- Linking of newNode and tail;
+        tail.next=newNode;
+        //Step-3 creating newNode as tail;
+        tail=newNode;
+    }
+
+    //printing LL- T.C.-O(n);
+
+    public void printLL(){
+        if(head==null){
+            System.out.println("LL is empty");
+        }
+        Node temp=head;
+        while(temp!=null){
+            System.out.print(temp.data +"-->");
+            temp=temp.next;
+        }
+        System.out.println("null");
+    }
+
+
+    //add element in LL;- T.C.-O(n)
+
+    public void add(int idx,int data){
+        if(idx==0){
+            addFirst(data);
+            return;
+        }
+        //step-1 Creating a new Node;
+        Node newNode=new Node(data);
+        size++;
+        Node temp=head;
+        
+        int i=0;
+        while(i<idx-1){
+            temp=temp.next;
+            i++;
+        }
+        newNode.next=temp.next;
+        temp.next=newNode;
+        
+    }
+
+    //Remove First
+
+    public int removeFirst(){
+        if(size==0){
+            System.out.println("LL is empty");
+            return Integer.MIN_VALUE;
+        }else if(size==1){
+            int val=head.data;
+            head=tail=null;
+            size=0;
+        }
+        int val=head.data;
+        head=head.next;
+        size--;
+        return val;
+
+    }
+
+    //Remove Last-T.C.-O(n);
+
+    public int removeLast(){
+        if(size==0){
+            System.out.println("LL is empty");
+            return Integer.MIN_VALUE;
+        }else if(size==1){
+            int val=head.data;
+            head=tail=null;
+            size--;
+            return val;
+        }
+
+        Node prev=head;
+
+        for(int i=0;i<size-2;i++){
+            prev=prev.next;
+        }
+
+        int val=prev.next.data;
+        prev.next=null;
+        tail=prev;
+        size--;
+        return val;
+    }
+
+    //Search for a key Iterative Search(Linear Search)-T.C.-O(n)
+
+    public int itrSearch(int key){
+        if(head==null){
+            System.out.println("LL is empty");
+            return -1;
+        }
+
+        Node temp=head;
+        int i=0;
+        while(temp!=null){
+            if(temp.data==key){
+                return i;
+            }
+            temp=temp.next;
+            i++;
+        }
+
+        return -1;
+    }
+
+
+    //Recursive Search for a key in LL- T.C-O(n), S.C-O(n)
+
+    public int helper(Node head, int key){
+
+        if(head==null){
+            return -1;
+        }
+        if(head.data==key){
+            return 0;
+        }
+
+        int idx=helper(head.next,key);
+
+        if(idx==-1){
+            return -1;
+        }
+        return idx+1;
+
+    }
+
+    public int recSearch(int key){
+        return helper(head,key);
+    }
+
+    public static void main(String args[]){
+        LinkedLists ll=new LinkedLists();
+        ll.addFirst(2);
+        ll.addFirst(1);
+        ll.addLast(3);
+        ll.addLast(4);  
+        ll.add(2, 5); 
+        ll.removeFirst();
+        ll.removeLast();
+        ll.addFirst(1);
+        ll.printLL();
+        System.out.println(ll.itrSearch(5));
+        System.out.println(ll.recSearch(3));
+        System.out.println(ll.size);
+
+        
+    }
+}
